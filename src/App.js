@@ -1,15 +1,12 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
-import Dashboard from './pages/Dashboard';
-import {BrowserRouter} from 'react-router-dom';
-import Mainroute from './router/route';
+import { BrowserRouter } from 'react-router-dom';
+import Mainroute from './router/Mainroute';
 function App() {
-  return (
-    <BrowserRouter>
-    <Mainroute/>
-    </BrowserRouter>
-  );
+	return (
+		<BrowserRouter>
+			<Mainroute />
+		</BrowserRouter>
+	);
 }
 
 export default App;

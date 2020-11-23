@@ -1,0 +1,60 @@
+// Variables
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i");
+@import url("https://fonts.googleapis.com/css?family=Castoro:300,300i,400,400i,700,700i");
+
+// Body
+$body-bg: #f8fafc;
+
+// Typography
+$font-family-sans-serif: "Castoro", "Segoe UI", Roboto, "Helvetica Neue",
+    Arial sans-serif;
+$font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace !default;
+$font-size-base: 0.925rem;
+$line-height-base: 1.6;
+
+// Colors
+$blue: #0e79b2;
+$indigo: #6574cd;
+$purple: #9561e2;
+$pink: #bf1363;
+$red: #db3a34;
+$orange: #f6993f;
+$yellow: #ffed4a;
+$green: #29b432;
+$teal: #4dc0b5;
+$cyan: #5ba4e0;
+$black: #444;
+$white: #fff;
+
+// Additional
+$primary: #007fff !default;
+$secondary: #d81e5b !default;
+// $success: $green !default;
+// $info: $cyan !default;
+// $warning: $yellow !default;
+// $danger: $red !default;
+$light: #f9f9ff !default;
+$dark: #243b4a !default;
+
+$enable-responsive-font-sizes: true !default;
+
+$headings-font-family: "Open Sans", $font-family-sans-serif !default;
+
+$h1-font-size: $font-size-base * 4.375 !default;
+$h2-font-size: $font-size-base * 2.25 !default;
+$h3-font-size: $font-size-base * 1.875 !default;
+$h4-font-size: $font-size-base * 1.5 !default;
+$h5-font-size: $font-size-base * 1.125 !default;
+$h6-font-size: $font-size-base !default;
+
+$input-btn-font-family: $font-family-monospace !default;
+
+$swal2-success: $green !default;
+$swal2-error: $red !default;
+$swal2-warning: $yellow !default;
+$swal2-info: $cyan !default;
+$swal2-question: $indigo !default;
+
+$swal2-background: $body-bg !default;
+$swal2-font-size: $font-size-base !default;
