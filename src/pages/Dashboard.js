@@ -1,37 +1,65 @@
 import React from 'react';
 import PokemonCard from '../components/Card/PokemonCard';
 import Header from '../components/Header';
-import Footer from '../components/Footer'
+import Footer from '../components/Footer';
 
 class Dashboard extends React.Component {
-	state = { data: [] };
-	componentDidMount() {
-		this.fetchPokemon();
+	state = { data: [], total: 0, pagnav: [] };
+
+	pgno = 0;
+	async componentWillMount() {
+		document.title = 'Pokedex';
+		this.pgno = isNaN(this.props.match.params.pgno)
+			? 0
+			: this.props.match.params.pgno;
+
+		let i = Math.max(0, this.pgno - 2);
+		let high = parseInt(this.pgno) + 2;
+		if (high < 5) high = 4;
+		this.state.pagnav = [];
+		while (i <= high) {
+			this.state.pagnav.push(
+				<li
+					className={`page-item ${i === parseInt(this.pgno) ? 'active' : ''}`}
+					key={i}
+				>
+					<a className="page-link" href={`/${i}`}>
+						{i + 1}
+					</a>
+				</li>
+			);
+			i++;
+			if (i >= 1116 / 40) break;
+		}
+		await this.fetchPokemon();
 	}
-	fetchPokemon = () => {
-		const url = 'https://pokeapi.co/api/v2/pokemon/?limit=40';
+	getNextPageUrl() {
+		if (parseInt(this.pgno) >= parseInt(1116 / 40)) return 'null';
+		return `/${parseInt(this.pgno) + 1}`;
+	}
+	getPrevPageUrl() {
+		if (parseInt(this.pgno) <= 0) return 'null';
+		return `/${parseInt(this.pgno) - 1}`;
+	}
+
+	fetchPokemon = async () => {
+		const url = `https://pokeapi.co/api/v2/pokemon/?limit=40&offset=${
+			this.pgno * 40
+		}`;
 		const configuration = {
 			method: 'GET',
 			headers: { 'accept-type': 'application/json' },
 		};
-		fetch(url, configuration)
-			.then((response) => {
-				return response.json();
-			})
-			.then((originalData) => {
-				console.log(originalData);
-				const newData = originalData.results.map((item) => {
-					return {
-						...item,
-						id: this.extractIdFromVal(item.url),
-					};
-				});
-				this.setState({ data: newData });
-			})
-
-			.catch((error) => {
-				console.log(error);
-			});
+		const response = await fetch(url, configuration);
+		const originalData = await response.json();
+		this.state.total = originalData.count;
+		const newData = originalData.results.map((item) => {
+			return {
+				...item,
+				id: this.extractIdFromVal(item.url),
+			};
+		});
+		this.setState({ data: newData });
 	};
 
 	extractIdFromVal = (url) => {
@@ -44,12 +72,11 @@ class Dashboard extends React.Component {
 	};
 
 	render() {
-		console.log(this.state);
 		return (
 			<>
 				<Header></Header>
 				<div className="container-fluid">
-					<div className="poke_List row justify-content-md-center">
+					<div className="poke_List row justify-content-center">
 						{this.state.data.map((item) => {
 							return (
 								<PokemonCard
@@ -61,8 +88,42 @@ class Dashboard extends React.Component {
 							);
 						})}
 					</div>
+
+					<nav aria-label="Page navigation" className="mt-4">
+						<ul className="pagination pagination-lg justify-content-center">
+							<li
+								className={`page-item ${
+									this.getPrevPageUrl() === 'null' ? 'disabled' : ''
+								}`}
+							>
+								<a
+									className="page-link"
+									href={this.getPrevPageUrl()}
+									aria-label="Previous"
+								>
+									<span aria-hidden="true">&laquo;</span>
+									<span className="sr-only">Previous</span>
+								</a>
+							</li>
+							{this.state.pagnav}
+							<li
+								className={`page-item ${
+									this.getNextPageUrl() === 'null' ? 'disabled' : ''
+								}`}
+							>
+								<a
+									className="page-link"
+									href={this.getNextPageUrl()}
+									aria-label="Next"
+								>
+									<span aria-hidden="true">&raquo;</span>
+									<span className="sr-only">Next</span>
+								</a>
+							</li>
+						</ul>
+					</nav>
 				</div>
-                <Footer></Footer>
+				<Footer></Footer>
 			</>
 		);
 	}

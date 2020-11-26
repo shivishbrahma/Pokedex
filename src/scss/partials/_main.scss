@@ -30,26 +30,31 @@ footer {
 	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 	transition: transform ease 200ms;
 	text-transform: capitalize;
-}
-.poke_card-img {
-	width: auto;
-	height: 150px;
-	margin: auto;
-	display: block;
-	object-fit: cover;
-}
-.pokemonCard:hover {
-	transform: scale(1.2);
-	color: rgb(231, 239, 241);
-	background-color: $purple;
-	transition: transform ease 400ms;
+	&:hover {
+		transform: scale(1.2);
+		color: rgb(231, 239, 241);
+		background-color: $purple;
+		transition: transform ease 400ms;
+	}
+	.poke_card-img {
+		width: auto;
+		height: 150px;
+		margin: auto;
+		display: block;
+		object-fit: cover;
+	}
 }
 
 .pokeCard {
 	.cardImageContainer {
 		max-width: 500px;
+		min-height: 500px;
 		display: grid;
 		place-items: center;
+		background-color: $red;
+		border-radius: 0.5rem;
+		border: 0.5rem solid $yellow;
+		color: $yellow;
 	}
 	.cardImage {
 		display: block;
@@ -60,11 +65,11 @@ footer {
 	}
 	.card-text {
 		display: inline-block;
-        padding: 0 0.5rem;
-        font-size: 1.2rem;
+		padding: 0 0.5rem;
+		font-size: 1.2rem;
 		ul {
-            list-style: circle;
-            padding: 0;
+			list-style: circle;
+			padding: 0;
 			li {
 				display: block;
 			}
@@ -72,6 +77,6 @@ footer {
 	}
 	.card-title {
 		display: inline-block;
-		width: 10rem;
+		width: 8rem;
 	}
 }
