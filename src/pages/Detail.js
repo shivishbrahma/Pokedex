@@ -1,8 +1,8 @@
-import React from 'react';
+import { Component } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-class Detail extends React.Component {
+class Detail extends Component {
 	state = { data: '' };
 	id = this.props.match.params.id;
 	async componentDidMount() {
@@ -39,7 +39,7 @@ class Detail extends React.Component {
 		return (
 			<>
 				<Header></Header>
-				<div className="container-fluid my-5 px-4">
+				<main className="container-fluid my-5 px-4">
 					<div className="text-left row pokeCard justify-content-center">
 						<div className="col-12 col-md-6 cardImageContainer">
 							<img
@@ -67,7 +67,14 @@ class Detail extends React.Component {
 												{this.state.data.types.map((item, i) => {
 													return (
 														<li className="text-capitalize" key={i}>
-															{item.type.name}
+															<img
+																className="d-inline-block icon"
+																src={`/icons/${item.type.name}.png`}
+																alt={item.type.name}
+															/>
+															<span className="d-inline-block">
+																{item.type.name}
+															</span>
 														</li>
 													);
 												})}
@@ -103,7 +110,14 @@ class Detail extends React.Component {
 									</div>
 								</div>
 							) : (
-								<h1 className="m-4">Loading....</h1>
+								<div className="m-4">
+									<div
+										className="spinner-border text-warning spinner-lg"
+										role="status"
+									>
+										<span className="sr-only">Loading...</span>
+									</div>
+								</div>
 							)}
 						</div>
 					</div>
@@ -132,7 +146,7 @@ class Detail extends React.Component {
 							<i className="fa fa-arrow-circle-right" aria-hidden="true"></i>
 						</a>
 					</div>
-				</div>
+				</main>
 				<Footer></Footer>
 			</>
 		);

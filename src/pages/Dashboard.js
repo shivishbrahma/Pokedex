@@ -1,9 +1,9 @@
-import React from 'react';
+import { Component } from 'react';
 import PokemonCard from '../components/Card/PokemonCard';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 
-class Dashboard extends React.Component {
+class Dashboard extends Component {
 	state = { data: [], total: 0, pagnav: [] };
 
 	pgno = 0;
@@ -35,11 +35,11 @@ class Dashboard extends React.Component {
 	}
 	getNextPageUrl() {
 		if (parseInt(this.pgno) >= parseInt(1116 / 40)) return 'null';
-		return `/${parseInt(this.pgno) + 1}`;
+		return `/pg/${parseInt(this.pgno) + 1}`;
 	}
 	getPrevPageUrl() {
 		if (parseInt(this.pgno) <= 0) return 'null';
-		return `/${parseInt(this.pgno) - 1}`;
+		return `/pg/${parseInt(this.pgno) - 1}`;
 	}
 
 	fetchPokemon = async () => {
@@ -75,54 +75,67 @@ class Dashboard extends React.Component {
 		return (
 			<>
 				<Header></Header>
-				<div className="container-fluid">
-					<div className="poke_List row justify-content-center">
-						{this.state.data.map((item) => {
-							return (
-								<PokemonCard
-									name={item.name}
-									id={item.id}
-									onClick={this.onPokemonCardClick}
-									key={item.id}
-								/>
-							);
-						})}
-					</div>
+				<main className="container-fluid">
+					{this.state.data.length !== 0 ? (
+						<>
+							<div className="poke_List row justify-content-center">
+								{this.state.data.map((item) => {
+									return (
+										<PokemonCard
+											name={item.name}
+											id={item.id}
+											onClick={this.onPokemonCardClick}
+											key={item.id}
+										/>
+									);
+								})}
+							</div>
 
-					<nav aria-label="Page navigation" className="mt-4">
-						<ul className="pagination pagination-lg justify-content-center">
-							<li
-								className={`page-item ${
-									this.getPrevPageUrl() === 'null' ? 'disabled' : ''
-								}`}
+							<nav aria-label="Page navigation" className="mt-4">
+								<ul className="pagination pagination-lg justify-content-center">
+									<li
+										className={`page-item ${
+											this.getPrevPageUrl() === 'null' ? 'disabled' : ''
+										}`}
+									>
+										<a
+											className="page-link"
+											href={this.getPrevPageUrl()}
+											aria-label="Previous"
+										>
+											<span aria-hidden="true">&laquo;</span>
+											<span className="sr-only">Previous</span>
+										</a>
+									</li>
+									{this.state.pagnav}
+									<li
+										className={`page-item ${
+											this.getNextPageUrl() === 'null' ? 'disabled' : ''
+										}`}
+									>
+										<a
+											className="page-link"
+											href={this.getNextPageUrl()}
+											aria-label="Next"
+										>
+											<span aria-hidden="true">&raquo;</span>
+											<span className="sr-only">Next</span>
+										</a>
+									</li>
+								</ul>
+							</nav>
+						</>
+					) : (
+						<div className="m-4 text-center align-middle">
+							<div
+								className="spinner-border text-warning spinner-lg"
+								role="status"
 							>
-								<a
-									className="page-link"
-									href={this.getPrevPageUrl()}
-									aria-label="Previous"
-								>
-									<span aria-hidden="true">&laquo;</span>
-									<span className="sr-only">Previous</span>
-								</a>
-							</li>
-							{this.state.pagnav}
-							<li
-								className={`page-item ${
-									this.getNextPageUrl() === 'null' ? 'disabled' : ''
-								}`}
-							>
-								<a
-									className="page-link"
-									href={this.getNextPageUrl()}
-									aria-label="Next"
-								>
-									<span aria-hidden="true">&raquo;</span>
-									<span className="sr-only">Next</span>
-								</a>
-							</li>
-						</ul>
-					</nav>
-				</div>
+								<span className="sr-only">Loading...</span>
+							</div>
+						</div>
+					)}
+				</main>
 				<Footer></Footer>
 			</>
 		);
