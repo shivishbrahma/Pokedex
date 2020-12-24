@@ -4,7 +4,7 @@
 
 An React Frontend API for Pokedex API
 
-## Using it
+## Using App
 
 To clone and start server
 

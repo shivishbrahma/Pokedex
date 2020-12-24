@@ -4,6 +4,7 @@ body,
 	height: 100%;
 	display: flex;
 	flex-direction: column;
+	background-color: $light;
 }
 
 main {
@@ -19,6 +20,14 @@ footer {
 	border-radius: 0px;
 }
 
+header {
+	background-color: lighten($danger, 10%);
+}
+
+footer {
+	background-color: darken($yellow, 10%);
+}
+
 .logo {
 	width: 30px;
 	margin: 0 0.5rem;
@@ -28,7 +37,7 @@ footer {
 	width: 180px;
 	height: 250px;
 	display: flex;
-	margin: 5px 15px;
+	margin: 0.65rem 0.5rem;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
@@ -36,10 +45,12 @@ footer {
 	box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 	transition: transform ease 200ms;
 	text-transform: capitalize;
+	background-color: $red;
+	color: $yellow;
 	&:hover {
 		transform: scale(1.2);
-		color: rgb(231, 239, 241);
 		background-color: $purple;
+		color: $white;
 		transition: transform ease 400ms;
 	}
 	.poke_card-img {
@@ -97,4 +108,18 @@ footer {
 	width: 8rem;
 	height: 8rem;
 	border-width: 1rem;
+}
+
+.pagination {
+	.page-item {
+		.page-link {
+			background-color: $danger;
+			color: $yellow;
+		}
+		&.active .page-link {
+			background-color: $purple;
+			border: 1px solid $purple;
+			color: $white;
+		}
+	}
 }

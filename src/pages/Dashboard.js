@@ -2,6 +2,7 @@ import { Component } from 'react';
 import PokemonCard from '../components/Card/PokemonCard';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
+import SearchBar from '../components/SearchBar';
 
 class Dashboard extends Component {
 	state = { data: [], total: 0, pagnav: [] };
@@ -23,7 +24,7 @@ class Dashboard extends Component {
 					className={`page-item ${i === parseInt(this.pgno) ? 'active' : ''}`}
 					key={i}
 				>
-					<a className="page-link" href={`/${i}`}>
+					<a className="page-link" href={`/pg/${i}`}>
 						{i + 1}
 					</a>
 				</li>
@@ -75,6 +76,7 @@ class Dashboard extends Component {
 		return (
 			<>
 				<Header></Header>
+				<SearchBar />
 				<main className="container-fluid">
 					{this.state.data.length !== 0 ? (
 						<>
