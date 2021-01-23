@@ -1,11 +1,11 @@
 import React from 'react';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import Mainroute from './router/Mainroute';
 function App() {
 	return (
-		<BrowserRouter>
+		<HashRouter basename={process.env.PUBLIC_URL}>
 			<Mainroute />
-		</BrowserRouter>
+		</HashRouter>
 	);
 }
 

@@ -2,11 +2,16 @@ import { Component } from 'react';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Error from '../pages/Error';
+import { Link } from 'react-router-dom';
 
 class Detail extends Component {
-	state = { data: '' };
-	id = this.props.match.params.id;
+	constructor(props) {
+		super(props);
+		this.state = { data: '', id: 1 };
+		this.id = props.match.params.id;
+	}
 	async componentDidMount() {
+		console.log(this.id);
 		if (this.id >= 0 && this.id <= 1116) {
 			await this.fetchPokemonDetail();
 			document.title = `Pokedex - ${
@@ -136,17 +141,17 @@ class Detail extends Component {
 								role="group"
 								aria-label=""
 							>
-								<a
-									href={this.getPrevPageUrl()}
+								<Link
+									to={this.getPrevPageUrl()}
 									className={`btn btn-secondary ${
 										this.getPrevPageUrl() === 'null' ? 'disabled' : ''
 									}`}
 								>
 									<i className="fa fa-arrow-circle-left" aria-hidden="true"></i>{' '}
 									Prev
-								</a>
-								<a
-									href={this.getNextPageUrl()}
+								</Link>
+								<Link
+									to={this.getNextPageUrl()}
 									className={`btn btn-success ${
 										this.getNextPageUrl() === 'null' ? 'disabled' : ''
 									}`}
@@ -156,7 +161,7 @@ class Detail extends Component {
 										className="fa fa-arrow-circle-right"
 										aria-hidden="true"
 									></i>
-								</a>
+								</Link>
 							</div>
 						</main>
 						<Footer />

@@ -7,13 +7,13 @@ export default class SearchBar extends Component {
 				<div className="input-group mx-auto">
 					<input
 						type="search"
-						class="form-control rounded rounded-pill"
+						className="form-control rounded rounded-pill"
 						name="searchPokemon"
 						placeholder="Enter search tags..."
 					/>
 					<div className="input-group-append">
 						<button className="btn btn-default">
-							<i class="fa fa-search" aria-hidden="true"></i>
+							<i className="fa fa-search" aria-hidden="true"></i>
 						</button>
 					</div>
 				</div>

@@ -3,12 +3,17 @@ import PokemonCard from '../components/Card/PokemonCard';
 import Header from '../components/Header';
 import Footer from '../components/Footer';
 import SearchBar from '../components/SearchBar';
+import { Link } from 'react-router-dom';
 
 class Dashboard extends Component {
-	state = { data: [], total: 0, pagnav: [] };
+	constructor(props) {
+		super(props);
+		this.state = { data: [], total: 0, pagnav: [] };
 
-	pgno = 0;
-	async componentWillMount() {
+		this.pgno = isNaN(props.match.params.pgno) ? 0 : props.match.params.pgno;
+	}
+
+	async componentDidMount() {
 		document.title = 'Pokedex';
 		this.pgno = isNaN(this.props.match.params.pgno)
 			? 0
@@ -24,9 +29,9 @@ class Dashboard extends Component {
 					className={`page-item ${i === parseInt(this.pgno) ? 'active' : ''}`}
 					key={i}
 				>
-					<a className="page-link" href={`/pg/${i}`}>
+					<Link className="page-link" to={`/pg/${i}`}>
 						{i + 1}
-					</a>
+					</Link>
 				</li>
 			);
 			i++;
@@ -100,14 +105,14 @@ class Dashboard extends Component {
 											this.getPrevPageUrl() === 'null' ? 'disabled' : ''
 										}`}
 									>
-										<a
+										<Link
 											className="page-link"
-											href={this.getPrevPageUrl()}
+											to={this.getPrevPageUrl()}
 											aria-label="Previous"
 										>
 											<span aria-hidden="true">&laquo;</span>
 											<span className="sr-only">Previous</span>
-										</a>
+										</Link>
 									</li>
 									{this.state.pagnav}
 									<li
@@ -115,14 +120,14 @@ class Dashboard extends Component {
 											this.getNextPageUrl() === 'null' ? 'disabled' : ''
 										}`}
 									>
-										<a
+										<Link
 											className="page-link"
-											href={this.getNextPageUrl()}
+											to={this.getNextPageUrl()}
 											aria-label="Next"
 										>
 											<span aria-hidden="true">&raquo;</span>
 											<span className="sr-only">Next</span>
-										</a>
+										</Link>
 									</li>
 								</ul>
 							</nav>
