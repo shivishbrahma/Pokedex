@@ -8,9 +8,9 @@ const Mainroute = () => {
 		<Route
 			render={({ location }) => (
 				<Switch location={location}>
+					<Route path="/pg/:pgno" component={Dashboard} />
+					<Route path="/detail/:id" component={Detail} />
 					<Route exact path="/" component={Dashboard} />
-					<Route exact path="/pg/:pgno" component={Dashboard} />
-					<Route exact path="/detail/:id" component={Detail} />
 					<Route component={Error} />
 				</Switch>
 			)}

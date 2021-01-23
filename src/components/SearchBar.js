@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import { FaSearch } from 'react-icons/fa';
+
 export default class SearchBar extends Component {
 	render() {
 		return (
@@ -13,7 +15,7 @@ export default class SearchBar extends Component {
 					/>
 					<div className="input-group-append">
 						<button className="btn btn-default">
-							<i className="fa fa-search" aria-hidden="true"></i>
+							<FaSearch />
 						</button>
 					</div>
 				</div>

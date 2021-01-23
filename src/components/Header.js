@@ -1,13 +1,14 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 export default function Header() {
 	return (
 		<header>
 			<nav className="navbar navbar-expand-sm navbar-dark">
-				<a className="navbar-brand h3" href="/">
-					<img src="/logo.png" className="logo" alt="Pokedex" />
+				<Link className="navbar-brand h3" to="/">
+					<img src="./logo.png" className="logo" alt="Pokedex" />
 					Pokedex
-				</a>
+				</Link>
 			</nav>
 		</header>
 	);

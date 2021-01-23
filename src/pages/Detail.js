@@ -3,15 +3,16 @@ import Header from '../components/Header';
 import Footer from '../components/Footer';
 import Error from '../pages/Error';
 import { Link } from 'react-router-dom';
+import { FaArrowCircleLeft, FaArrowCircleRight } from 'react-icons/fa';
 
 class Detail extends Component {
 	constructor(props) {
 		super(props);
 		this.state = { data: '', id: 1 };
 		this.id = props.match.params.id;
+		console.log(props.match);
 	}
 	async componentDidMount() {
-		console.log(this.id);
 		if (this.id >= 0 && this.id <= 1116) {
 			await this.fetchPokemonDetail();
 			document.title = `Pokedex - ${
@@ -83,7 +84,7 @@ class Detail extends Component {
 																<li className="text-capitalize" key={i}>
 																	<img
 																		className="d-inline-block icon"
-																		src={`/icons/${item.type.name}.png`}
+																		src={`./icons/${item.type.name}.png`}
 																		alt={item.type.name}
 																	/>
 																	<span className="d-inline-block">
@@ -147,8 +148,7 @@ class Detail extends Component {
 										this.getPrevPageUrl() === 'null' ? 'disabled' : ''
 									}`}
 								>
-									<i className="fa fa-arrow-circle-left" aria-hidden="true"></i>{' '}
-									Prev
+									<FaArrowCircleLeft /> Prev
 								</Link>
 								<Link
 									to={this.getNextPageUrl()}
@@ -156,11 +156,7 @@ class Detail extends Component {
 										this.getNextPageUrl() === 'null' ? 'disabled' : ''
 									}`}
 								>
-									Next{' '}
-									<i
-										className="fa fa-arrow-circle-right"
-										aria-hidden="true"
-									></i>
+									Next <FaArrowCircleRight />
 								</Link>
 							</div>
 						</main>
