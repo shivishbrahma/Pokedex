@@ -10,23 +10,30 @@ class Dashboard extends Component {
 		super(props);
 		this.state = { data: [], total: 0, pagnav: [] };
 
-		this.pgno = isNaN(props.match.params.pgno) ? 0 : props.match.params.pgno;
+		this.state.pgno = isNaN(props.match.params.pgno)
+			? 0
+			: props.match.params.pgno;
 	}
 
-	async componentDidMount() {
+	async componentOnChange() {
 		document.title = 'Pokedex';
-		this.pgno = isNaN(this.props.match.params.pgno)
-			? 0
-			: this.props.match.params.pgno;
+		this.setState({
+			...this.state,
+			pgno: isNaN(this.props.match.params.pgno)
+				? 0
+				: this.props.match.params.pgno,
+		});
 
-		let i = Math.max(0, this.pgno - 2);
-		let high = parseInt(this.pgno) + 2;
+		let i = Math.max(0, this.state.pgno - 2);
+		let high = parseInt(this.state.pgno) + 2;
 		if (high < 5) high = 4;
-		this.state.pagnav = [];
+		const pagnav = [];
 		while (i <= high) {
-			this.state.pagnav.push(
+			pagnav.push(
 				<li
-					className={`page-item ${i === parseInt(this.pgno) ? 'active' : ''}`}
+					className={`page-item ${
+						i === parseInt(this.state.pgno) ? 'active' : ''
+					}`}
 					key={i}
 				>
 					<Link className="page-link" to={`/pg/${i}`}>
@@ -35,37 +42,56 @@ class Dashboard extends Component {
 				</li>
 			);
 			i++;
-			if (i >= 1116 / 40) break;
+			if (i >= 1116 / 20) break;
 		}
-		await this.fetchPokemon();
-	}
-	getNextPageUrl() {
-		if (parseInt(this.pgno) >= parseInt(1116 / 40)) return 'null';
-		return `/pg/${parseInt(this.pgno) + 1}`;
-	}
-	getPrevPageUrl() {
-		if (parseInt(this.pgno) <= 0) return 'null';
-		return `/pg/${parseInt(this.pgno) - 1}`;
+		this.setState({ ...this.state, pagnav });
+		await this.fetchPokemonList();
 	}
 
-	fetchPokemon = async () => {
-		const url = `https://pokeapi.co/api/v2/pokemon/?limit=40&offset=${
-			this.pgno * 40
-		}`;
-		const configuration = {
-			method: 'GET',
-			headers: { 'accept-type': 'application/json' },
-		};
-		const response = await fetch(url, configuration);
-		const originalData = await response.json();
-		this.state.total = originalData.count;
-		const newData = originalData.results.map((item) => {
-			return {
-				...item,
-				id: this.extractIdFromVal(item.url),
+	async componentDidMount() {
+		await this.componentOnChange();
+	}
+
+	async componentDidUpdate(prevProps) {
+		if (prevProps.match.params.pgno !== this.props.match.params.pgno) {
+			const { pgno } = this.props.match.params;
+			this.setState({ ...this.state, pgno }, async () => {
+				await this.componentOnChange();
+			});
+		}
+	}
+
+	getNextPageUrl() {
+		if (parseInt(this.state.pgno) >= parseInt(1116 / 20)) return 'null';
+		return `/pg/${parseInt(this.state.pgno) + 1}`;
+	}
+	getPrevPageUrl() {
+		if (parseInt(this.state.pgno) <= 0) return 'null';
+		return `/pg/${parseInt(this.state.pgno) - 1}`;
+	}
+
+	fetchPokemonList = async () => {
+		try {
+			const url = `https://pokeapi.co/api/v2/pokemon/?limit=20&offset=${
+				this.state.pgno * 20
+			}`;
+			const configuration = {
+				method: 'GET',
+				headers: { 'accept-type': 'application/json' },
 			};
-		});
-		this.setState({ data: newData });
+			const response = await fetch(url, configuration);
+			const originalData = await response.json();
+			this.state.total = originalData.count;
+			const newData = originalData.results.map((item) => {
+				return {
+					...item,
+					id: this.extractIdFromVal(item.url),
+				};
+			});
+			this.setState({ ...this.state, data: newData });
+		} catch (err) {
+			console.error(err);
+		}
 	};
 
 	extractIdFromVal = (url) => {

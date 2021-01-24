@@ -5,8 +5,8 @@ import { FaSearch } from 'react-icons/fa';
 export default class SearchBar extends Component {
 	render() {
 		return (
-			<div className="container m-2">
-				<div className="input-group mx-auto">
+			<div className="container m-2 mx-auto">
+				<div className="input-group">
 					<input
 						type="search"
 						className="form-control rounded rounded-pill"

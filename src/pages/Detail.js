@@ -8,12 +8,11 @@ import { FaArrowCircleLeft, FaArrowCircleRight } from 'react-icons/fa';
 class Detail extends Component {
 	constructor(props) {
 		super(props);
-		this.state = { data: '', id: 1 };
-		this.id = props.match.params.id;
-		console.log(props.match);
+		this.state = { data: '', id: props.match.params.id };
 	}
-	async componentDidMount() {
-		if (this.id >= 0 && this.id <= 1116) {
+
+	async componentOnChange() {
+		if (this.state.id >= 1 && this.state.id <= 1116) {
 			await this.fetchPokemonDetail();
 			document.title = `Pokedex - ${
 				this.state.data.name.charAt(0).toUpperCase() +
@@ -24,32 +23,49 @@ class Detail extends Component {
 		}
 	}
 
+	async componentDidMount() {
+		await this.componentOnChange();
+	}
+
+	async componentDidUpdate(prevProps) {
+		if (prevProps.match.params.id !== this.props.match.params.id) {
+			const { id } = this.props.match.params;
+			this.setState({ ...this.state, id }, async () => {
+				await this.componentOnChange();
+			});
+		}
+	}
+
 	getNextPageUrl = () => {
-		if (parseInt(this.id) >= 1116) return 'null';
-		return `/detail/${parseInt(this.id) + 1}`;
+		if (parseInt(this.state.id) >= 1116) return 'null';
+		return `/detail/${parseInt(this.state.id) + 1}`;
 	};
 
 	getPrevPageUrl = () => {
-		if (parseInt(this.id) <= 0) return 'null';
-		return `/detail/${parseInt(this.id) - 1}`;
+		if (parseInt(this.state.id) <= 1) return 'null';
+		return `/detail/${parseInt(this.state.id) - 1}`;
 	};
 
 	fetchPokemonDetail = async () => {
-		const url = 'https://pokeapi.co/api/v2/pokemon/' + this.id;
-		const configuration = {
-			method: 'GET',
-			headers: { 'accept-type': 'application/json' },
-		};
+		try {
+			const url = 'https://pokeapi.co/api/v2/pokemon/' + this.state.id;
+			const configuration = {
+				method: 'GET',
+				headers: { 'accept-type': 'application/json' },
+			};
 
-		const response = await fetch(url, configuration);
-		const data = await response.json();
-		this.setState({ data: data });
+			const response = await fetch(url, configuration);
+			const data = await response.json();
+			this.setState({ ...this.state, data });
+		} catch (error) {
+			console.error(error);
+		}
 	};
 
 	render() {
 		return (
 			<>
-				{this.id < 0 || this.id > 1116 ? (
+				{this.state.id <= 0 || this.state.id > 1116 ? (
 					<Error message="Invalid Pokemon Id" />
 				) : (
 					<>
@@ -60,9 +76,9 @@ class Detail extends Component {
 									<img
 										className="cardImage"
 										src={`${'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/'}${
-											this.id
+											this.state.id
 										}.png`}
-										alt={this.id}
+										alt={this.state.id}
 									/>
 								</div>
 								<div className="col-12 col-md-6 cardImageContainer">
